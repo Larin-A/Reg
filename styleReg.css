@@ -1,0 +1,75 @@
+body
+{
+    background-image: url(darkBack.jpg);
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    hyphens:auto;
+    word-wrap: break-word;
+}
+
+h1
+{
+    font-family: Arial, Calibri,  sans-serif;
+    font-size: 50px;
+    margin: 40px auto 20px;
+}
+
+.divForm
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form
+{
+    margin-top: 40px;
+    border: 3px solid white;
+    border-radius: 10%;
+    width: 95%;
+    max-width: 20cm;
+    min-width: 350px;
+    height: auto;
+    background: linear-gradient(0deg, rgba(34,34,34,1) 0%, rgba(53,53,53,1) 100%);
+}
+
+.grid-form-reg
+{
+    margin: 40px;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    grid-template-rows: repeat(5, auto);
+    row-gap: 15px;
+    column-gap: 5px;
+    align-items: center;
+    font-size: 24px;
+}
+
+.grid-form-reg label
+{
+    grid-column: 1/2;
+    text-align: right;
+    vertical-align: center;
+}
+
+label
+{
+    font-size: 1em;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.grid-form-reg input
+{
+    margin: 10px 2px;
+}
+
+input
+{
+    margin: 10px 2px;
+    padding: 3px;
+    font-size: 1em;
+    font-family: Calibri, sans-serif;
+    background-color: #335;
+    color: white;
+}
