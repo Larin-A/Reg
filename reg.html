@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <title>Регистрация</title>
   <link rel="stylesheet" href="styleReg.css" />
-  <script src="scriptReg.js"></script>
 </head>
 <body>
     <div class="divForm">
@@ -12,20 +11,26 @@
             <h1>Регистрация</h1>
             <div class="grid-form-reg">
                 <label for="id-login">Логин</label>
-                <input type="text" name="login" id="id-login">
+                <input type="text" name="login" id="id-login" placeholder="User123">
                 <label for="id-e-mail">E-mail</label>
-                <input type="email" name="e-mail" id="id-e-mail">
+                <input type="email" name="e-mail" id="id-e-mail" placeholder="user123@gmail.com">
                 <label for="id-telephone">Номер телефона</label>
-                <input type="tel" name="telephone" id="id-telephone">
+                <input type="text" name="telephone" id="id-telephone" placeholder="+7(900) 000-0000">
                 <label for="id-pass">Пароль</label>
-                <input type="password" name="pass" id="id-pass">
+                <input type="password" name="pass" id="id-pass" placeholder="Qwerty123!">
                 <label for="id-pass2">Повторите пароль</label>
-                <input type="password" name="pass2" id="id-pass2">
+                <input type="password" name="pass2" id="id-pass2" placeholder="Qwerty123!">
                 <button type="reset" name="res" for="form-reg">Сброс</button>
                 <button type="submit" name="subm" for="form-reg">Зарегистрироваться</button>
             </div>
             <p name="message"></p>
         </form>
     </div>
+    <script src="scriptReg.js"></script>
+    <script src="jquery.js"></script>
+    <script src="mask.js"></script>
+    <script>
+        jQuery("#id-telephone").mask("+7(999) 999-9999");
+    </script>
 </body>
 </html>
