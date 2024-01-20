@@ -73,3 +73,13 @@ input
     background-color: #335;
     color: white;
 }
+
+button
+{
+    margin: 15px 2px;
+    padding: 10px;
+    font-size: 1em;
+    font-family: 'Times New Roman', Times, serif;
+    color: white;
+    background-color: #555;
+}
