@@ -28,7 +28,7 @@ form
     border: 3px solid white;
     border-radius: 10%;
     width: 95%;
-    max-width: 20cm;
+    max-width: 22cm;
     min-width: 350px;
     height: auto;
     background: linear-gradient(0deg, rgba(34,34,34,1) 0%, rgba(53,53,53,1) 100%);
@@ -63,7 +63,7 @@ p
 {
     
     margin: 5px;
-    font-size: 20px;
+    font-size: 1em;
     font-family: 'Times New Roman', Times, serif;
     text-align: justify;
 }
