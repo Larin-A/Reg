@@ -11,13 +11,13 @@ function Submit(form)
 
     let login = document.getElementById("id-login");
     login.value = login.value.trim();
-    if(login.value.match(/^[a-zA-Zа-яёА-ЯЁ0-9]{3,32}$/) == null)
+    if(login.value.match(/^[a-zа-яё0-9]{3,32}$/iu) == null)
     {
         message.innerHTML = "Логин может содержать только английские/русские буквы и цифры"
         return false;
     }
 
-    if(document.getElementById("id-pass").value.match(/^[a-zA-Zа-яёА-ЯЁ0-9!@#$%^&*]{8,32}$/) == null)
+    if(document.getElementById("id-pass").value.match(/^[a-zа-яё0-9!@#$%^&*]{8,32}$/iu) == null)
     {
         message.innerHTML = "Пароль может содержать только английские/русские буквы и цифры или символы из набора !@#$%^&*"
         return false;

@@ -1,5 +1,17 @@
+html, body
+{
+    margin: 0;
+    padding: 0;
+}
+
+html
+{
+    height: 100%;
+}
+
 body
 {
+    min-height: 100%;
     background-image: url(darkBack.jpg);
     text-align: center;
     color: white;

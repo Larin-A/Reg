@@ -8,13 +8,13 @@
 </head>
 <body>
     <div class="divForm">
-        <form action="" method="get" name="form-reg" onsubmit="return Submit(this)" autocomplete="on" onreset="Reset(this)">
+        <form action="serverReg.php" method="POST" name="form-reg" onsubmit="return Submit(this)" autocomplete="on" onreset="Reset(this)">
             <h1>Регистрация</h1>
             <div class="grid-form-reg">
                 <label for="id-login">Логин</label>
                 <input type="text" name="login" id="id-login" placeholder="User123" required minlength="3" maxlength="32">
-                <label for="id-e-mail">E-mail</label>
-                <input type="email" name="e-mail" id="id-e-mail" placeholder="user123@gmail.com"  required required minlength="5" maxlength="64">
+                <label for="id-email">E-mail</label>
+                <input type="email" name="email" id="id-email" placeholder="user123@gmail.com"  required required minlength="5" maxlength="64">
                 <label for="id-telephone">Номер телефона</label>
                 <input type="text" name="telephone" id="id-telephone" placeholder="+7(900) 000-0000"  required>
                 <label for="id-pass">Пароль</label>
