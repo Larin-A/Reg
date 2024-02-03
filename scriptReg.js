@@ -48,13 +48,11 @@ $(document).ready(function() {
             console.log(data);
             if (!data.success)
             {
-                let errString = "В данных формы обнаружены ошибки:\n\n";
+                let errString = "При регистрации обнаружены ошибки:\n\n";
                 
-                errString += data.errors["login"] + "\n\n";
-                errString += data.errors["email"] + "\n\n";
-                errString += data.errors["telephone"] + "\n\n";
-                errString += data.errors["pass"] + "\n\n";
-                errString += data.errors["pass2"];
+                for (key in data.errors) {
+                    errString += data.errors[key] + "\n\n";
+                }
 
                 alert(errString);
             } else

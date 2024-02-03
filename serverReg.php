@@ -40,29 +40,47 @@
         $errors['pass2'] = "Пароли должны совпадать.";
     }
     
+
     if (!empty($errors)) {
         $dataReg['success'] = false;
         $dataReg['errors'] = $errors;
     } else {
-        $dataReg['success'] = true;
-        $dataReg['message'] = 'Success!';
 
-        $hash = password_hash($pass, PASSWORD_BCRYPT);
+        try {
+            $hash = password_hash($pass, PASSWORD_BCRYPT);
 
-        define('FILE_BASE_NAME', 'database_XD.txt');
+            define('FILE_BASE_NAME', 'database_XD.txt');
 
-        $fileBase = fopen(FILE_BASE_NAME, 'a');
+            $fileBase = fopen(FILE_BASE_NAME, 'a');
 
-        if (filesize(FILE_BASE_NAME))
-        {
-            fwrite($fileBase, "\n");
+            if (!$fileBase)
+            {
+                throw new Exception('Ошибка при открытии файла базы данных регистрации');  
+            }
+
+            if (filesize(FILE_BASE_NAME))
+            {
+                fwrite($fileBase, "\n");
+            }
+
+            fwrite($fileBase, "Логин: $login\n");
+            fwrite($fileBase, "E-mail: $email\n");
+            fwrite($fileBase, "Номер телефона: $telephone\n");
+            fwrite($fileBase, "$hash");
+            
+            $dataReg['success'] = true;
+            $dataReg['message'] = 'Success!';
+        }
+        catch (Exception $ex) {
+            $errors['dataBase'] = 'Ошибка на сервере, попробуйте позже.';
+            $dataReg['success'] = false;
+            $dataReg['errors'] = $errors;
+
+            error_log($ex->getMessage());
+        } finally {
+            fclose($fileBase);
         }
 
-        fwrite($fileBase, "Логин: $login\n");
-        fwrite($fileBase, "E-mail: $email\n");
-        fwrite($fileBase, "Номер телефона: $telephone\n");
-        fwrite($fileBase, "$hash");
-        fclose($fileBase);
     }
     
     echo json_encode($dataReg);
