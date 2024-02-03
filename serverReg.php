@@ -46,6 +46,23 @@
     } else {
         $dataReg['success'] = true;
         $dataReg['message'] = 'Success!';
+
+        $hash = password_hash($pass, PASSWORD_BCRYPT);
+
+        define('FILE_BASE_NAME', 'database_XD.txt');
+
+        $fileBase = fopen(FILE_BASE_NAME, 'a');
+
+        if (filesize(FILE_BASE_NAME))
+        {
+            fwrite($fileBase, "\n");
+        }
+
+        fwrite($fileBase, "Логин: $login\n");
+        fwrite($fileBase, "E-mail: $email\n");
+        fwrite($fileBase, "Номер телефона: $telephone\n");
+        fwrite($fileBase, "$hash");
+        fclose($fileBase);
     }
     
     echo json_encode($dataReg);
