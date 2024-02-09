@@ -16,9 +16,9 @@
             throw new Exception('Ошибка при открытии файла базы данных регистрации');  
         }
 
-        while(!feof($fileBase))
+        while (!feof($fileBase))
         {
-            $str = fgets($fd);
+            $str = fgets($fileBase);
             
             if (!$str) 
             {
@@ -27,7 +27,7 @@
 
             if (preg_match('/^Логин: |^E-mail: |^Номер телефона: /', $str))
             {
-                $dataToShow[$countRecords] += $str;
+                $dataToShow[$countRecords] .= $str."<br>";
             }
             else
             {

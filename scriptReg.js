@@ -50,7 +50,8 @@ $(document).ready(function() {
             {
                 let errString = "При регистрации обнаружены ошибки:\n\n";
                 
-                for (key in data.errors) {
+                for (key in data.errors)
+                {
                     errString += data.errors[key] + "\n\n";
                 }
 

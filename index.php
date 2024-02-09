@@ -1,2 +1,2 @@
 <?php
-    include "./reg.html";
+    header('Location: reg.html', true, 301);
