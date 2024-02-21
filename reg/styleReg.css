@@ -12,7 +12,7 @@ html
 body
 {
     min-height: 100%;
-    background-image: url(darkBack.jpg);
+    background-image: url(/reg/darkBack.jpg);
     text-align: center;
     color: white;
     font-size: 20px;

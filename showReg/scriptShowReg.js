@@ -24,14 +24,13 @@ function writeThumbnailReg(text) {
 
 $.ajax({
     type: "GET",
-    url: "serverShowReg.php",
+    url: "/showReg/serverShowReg.php",
     dataType: "json",
     encode: true,
 }).done(function (data) {
     console.log(data);
 
-    if (!data.success)
-    {
+    if (!data.success) {
         let errString = "При запросе данных регистраций возникли ошибки:<br>";
         for (key in data.errors) 
         {
@@ -41,14 +40,12 @@ $.ajax({
         return;
     } 
 
-    if (data.countRecords == 0)
-    {
+    if (data.countRecords == 0) {
         writeThumbnailReg("Записи о регистрации не найдены.");
         return;
     }
 
-    for (let i = 0; i < data.countRecords; i++)
-    {
+    for (let i = 0; i < data.countRecords; i++) {
         writeThumbnailReg(data.dataToShow[i]);
     }
 

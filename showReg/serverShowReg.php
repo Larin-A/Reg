@@ -1,5 +1,5 @@
 <?php
-    define('FILE_BASE_NAME', 'database_XD.txt');
+    define('FILE_BASE_NAME', $_SERVER['DOCUMENT_ROOT'].'/database/database_XD.txt');
 
     $dataResponse = [];
     $errors = [];
@@ -11,41 +11,34 @@
 
         $fileBase = fopen(FILE_BASE_NAME, 'r');
 
-        if (!$fileBase)
-        {
+        if (!$fileBase) {
             throw new Exception('Ошибка при открытии файла базы данных регистрации');  
         }
 
-        while (!feof($fileBase))
-        {
+        while (!feof($fileBase)) {
             $str = fgets($fileBase);
             
-            if (!$str) 
-            {
+            if (!$str) {
                 break;
             }
 
-            if (preg_match('/^Логин: |^E-mail: |^Номер телефона: /', $str))
-            {
+            if (preg_match('/^Логин: |^E-mail: |^Номер телефона: /', $str)) {
                 $dataToShow[$countRecords] .= $str."<br>";
             }
-            else
-            {
+            else {
                 $countRecords++;
                 $dataToShow[$countRecords] = "";
             }
             
         }
 
-        if ($countRecords)
-        {
+        if ($countRecords) {
             $dataResponse['success'] = true;
             $dataResponse['message'] = 'Success!';
             $dataResponse['dataToShow'] = $dataToShow;
             $dataResponse['countRecords'] = $countRecords;
         }
-        else
-        {
+        else {
             $dataResponse['success'] = true;
             $dataResponse['message'] = 'Записи в базе не найдены.';
             $dataResponse['countRecords'] = $countRecords;

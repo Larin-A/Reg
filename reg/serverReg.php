@@ -1,4 +1,6 @@
 <?php
+    define('FILE_BASE_NAME', $_SERVER['DOCUMENT_ROOT'].'/database/database_XD.txt');
+
     $errors = [];
     $dataReg = [];
     
@@ -49,7 +51,6 @@
         try {
             $hash = password_hash($pass, PASSWORD_BCRYPT);
 
-            define('FILE_BASE_NAME', 'database_XD.txt');
 
             $fileBase = fopen(FILE_BASE_NAME, 'a');
 
