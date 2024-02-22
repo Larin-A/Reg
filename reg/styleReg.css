@@ -15,7 +15,6 @@ body
     background-image: url(/reg/darkBack.jpg);
     text-align: center;
     color: white;
-    font-size: 20px;
     hyphens:auto;
     word-wrap: break-word;
 }
@@ -29,6 +28,7 @@ h1
 
 .divForm
 {
+    font-size: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;

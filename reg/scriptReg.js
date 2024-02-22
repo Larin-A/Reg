@@ -1,3 +1,5 @@
+$("#nav-reg").addClass("active");
+
 $(function() {
     $("#formReg").submit(function(event) {
         event.preventDefault();

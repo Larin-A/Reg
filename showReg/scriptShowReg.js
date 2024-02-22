@@ -2,25 +2,7 @@
 
 const regThumbnails = $("#regThumbnails");
 
-function addThumbnail(container) {
-    let thumbnail = document.createElement('li');
-    thumbnail.className = "span4";
-    container.append(thumbnail);
-    return thumbnail;
-}
-
-function getNewParagraphThumbnail(thumbnail) {
-    let paragraph = document.createElement('p');
-    paragraph.className = "thumbnail";
-    paragraph.style = "padding: 20px";
-    thumbnail.append(paragraph);
-    return paragraph;
-}
-
-function writeThumbnailReg(text) {
-    let paragraph = getNewParagraphThumbnail(addThumbnail(regThumbnails));
-    paragraph.innerHTML = text;
-}
+$("#nav-showReg").addClass("active");
 
 $.ajax({
     type: "GET",
@@ -52,3 +34,24 @@ $.ajax({
 }).fail(function () {
     writeThumbnailReg("Ошибка запроса данных регистраций.");
 });
+
+
+function addThumbnail(container) {
+    let thumbnail = document.createElement('li');
+    thumbnail.className = "span4";
+    container.append(thumbnail);
+    return thumbnail;
+}
+
+function getNewParagraphThumbnail(thumbnail) {
+    let paragraph = document.createElement('p');
+    paragraph.className = "thumbnail";
+    paragraph.style = "padding: 20px";
+    thumbnail.append(paragraph);
+    return paragraph;
+}
+
+function writeThumbnailReg(text) {
+    let paragraph = getNewParagraphThumbnail(addThumbnail(regThumbnails));
+    paragraph.innerHTML = text;
+}
