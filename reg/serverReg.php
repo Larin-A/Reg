@@ -1,5 +1,5 @@
 <?php
-    define('FILE_BASE_NAME', $_SERVER['DOCUMENT_ROOT'].'/database/database_XD.txt');
+    require_once $_SERVER['DOCUMENT_ROOT'].'/database/connect.php';
 
     $errors = [];
     $dataReg = [];
@@ -21,10 +21,10 @@
         $errors['email'] = 'Некорректный e-mail.';
     }
     
-    $telephone = $_POST['telephone'];
+    $tel = $_POST['telephone'];
     if (
-        empty($telephone)
-        || !preg_match('/^\+7\([0-9]{3}\)[ ][0-9]{3}\-[0-9]{4}$/', $telephone)
+        empty($tel)
+        || !preg_match('/^\+7\([0-9]{3}\)[ ][0-9]{3}\-[0-9]{4}$/', $tel)
     ) {
         $errors['telephone'] = 'Некорректный номер телефона.';
     }
@@ -43,31 +43,74 @@
     }
     
 
+    $tableReg = Connect::$tableReg;
+    $colId = Connect::$colId;
+    $colLogin = Connect::$colLogin;
+    $colPass = Connect::$colPass;
+    $colEmail = Connect::$colEmail;
+    $colTel = Connect::$colTel;
+
+    $link;
+    try {
+        $link = mysqli_connect(Connect::$host, Connect::$user, Connect::$pass, Connect::$database);
+
+        if ($link == false) {
+            throw new Exception('Error connect database');  
+        }
+
+        mysqli_set_charset($link, Connect::$charset);
+
+        $resultSQL = mysqli_query($link, "SELECT $colLogin FROM $tableReg WHERE $colLogin = '$login'");
+        if (mysqli_fetch_array($resultSQL) != null) {
+            $errors['login2'] = 'Логин уже используется.';
+        }
+
+        $resultSQL = mysqli_query($link, "SELECT $colEmail FROM $tableReg WHERE $colEmail = '$email'");
+        if (mysqli_fetch_array($resultSQL) != null) {
+            $errors['email2'] = 'E-mail уже используется.';
+        }
+
+        $resultSQL = mysqli_query($link, "SELECT $colTel FROM $tableReg WHERE $colTel = '$tel'");
+        if (mysqli_fetch_array($resultSQL) != null) {
+            $errors['telephone2'] = 'Номер телефона уже используется.';
+        }
+
+    } catch (Exception $ex) {
+        $errors['dataBase'] = 'Ошибка на сервере, попробуйте позже.';
+        $dataReg['success'] = false;
+        $dataReg['errors'] = $errors;
+
+        error_log($ex->getMessage());
+    } finally {        
+        mysqli_close($link);
+    }
+  
+
+
     if (!empty($errors)) {
         $dataReg['success'] = false;
         $dataReg['errors'] = $errors;
     } else {
 
         try {
+            $link = mysqli_connect(Connect::$host, Connect::$user, Connect::$pass, Connect::$database);
+
+            if ($link == false) {
+                throw new Exception('Error connect database');
+            }
+
+            mysqli_set_charset($link, Connect::$charset);
+
             $hash = password_hash($pass, PASSWORD_BCRYPT);
 
-
-            $fileBase = fopen(FILE_BASE_NAME, 'a');
-
-            if (!$fileBase)
-            {
-                throw new Exception('Ошибка при открытии файла базы данных регистрации');  
+            if (
+                !mysqli_query(
+                    $link,
+                    "INSERT INTO $tableReg ($colId, $colLogin, $colEmail, $colTel, $colPass) SELECT null, '$login', '$email', '$tel', '$hash'"
+                    )
+            ) {
+                throw new Exception('Error insert database');
             }
-
-            if (filesize(FILE_BASE_NAME))
-            {
-                fwrite($fileBase, "\n");
-            }
-
-            fwrite($fileBase, "Логин: $login\n");
-            fwrite($fileBase, "E-mail: $email\n");
-            fwrite($fileBase, "Номер телефона: $telephone\n");
-            fwrite($fileBase, "$hash");
             
             $dataReg['success'] = true;
             $dataReg['message'] = 'Success!';
@@ -78,8 +121,8 @@
             $dataReg['errors'] = $errors;
 
             error_log($ex->getMessage());
-        } finally {
-            fclose($fileBase);
+        } finally {        
+            mysqli_close($link);
         }
 
     }
