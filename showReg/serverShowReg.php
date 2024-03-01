@@ -1,35 +1,32 @@
 <?php
-    define('FILE_BASE_NAME', $_SERVER['DOCUMENT_ROOT'].'/database/database_XD.txt');
+    require_once $_SERVER['DOCUMENT_ROOT'].'/database/connect.php';
+
+    $tableReg = Connect::$tableReg;
+    $colLogin = Connect::$colLogin;
+    $colEmail = Connect::$colEmail;
+    $colTel = Connect::$colTel;
 
     $dataResponse = [];
     $errors = [];
     $dataToShow = [];
     $countRecords = 0;
-    $dataToShow[$countRecords] = "";
-
+    
     try {
 
-        $fileBase = fopen(FILE_BASE_NAME, 'r');
+        $link = mysqli_connect(Connect::$host, Connect::$user, Connect::$pass, Connect::$database);
 
-        if (!$fileBase) {
-            throw new Exception('Ошибка при открытии файла базы данных регистрации');  
+        if ($link == false) {
+            throw new Exception('Error connect database');  
         }
 
-        while (!feof($fileBase)) {
-            $str = fgets($fileBase);
-            
-            if (!$str) {
-                break;
-            }
+        mysqli_set_charset($link, Connect::$charset);
 
-            if (preg_match('/^Логин: |^E-mail: |^Номер телефона: /', $str)) {
-                $dataToShow[$countRecords] .= $str."<br>";
-            }
-            else {
-                $countRecords++;
-                $dataToShow[$countRecords] = "";
-            }
-            
+        $resultSQL = mysqli_query($link, "SELECT $colLogin, $colEmail, $colTel FROM $tableReg");
+
+        while ($row = mysqli_fetch_array($resultSQL)) {
+
+            $dataToShow[$countRecords] = 'Логин: '.$row[$colLogin].'<br>E-mail: '.$row[$colEmail].'<br>Номер телефона: '.$row[$colTel];
+            $countRecords++;            
         }
 
         if ($countRecords) {
@@ -51,7 +48,7 @@
 
         error_log($ex->getMessage());
     } finally {
-        fclose($fileBase);
+        mysqli_close($link);
     }
 
     echo json_encode($dataResponse);

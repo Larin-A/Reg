@@ -50,7 +50,6 @@
     $colEmail = Connect::$colEmail;
     $colTel = Connect::$colTel;
 
-    $link;
     try {
         $link = mysqli_connect(Connect::$host, Connect::$user, Connect::$pass, Connect::$database);
 
