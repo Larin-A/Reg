@@ -1,3 +1,11 @@
+<?php
+/**
+ * @var $title string
+ * @var $title string
+ * @var $title string
+ */
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>

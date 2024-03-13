@@ -21,11 +21,11 @@
 
         mysqli_set_charset($link, Connect::$charset);
 
-        $resultSQL = mysqli_query($link, "SELECT $colLogin, $colEmail, $colTel FROM $tableReg");
+        $resultSQL = mysqli_query($link, "SELECT id, $colLogin, $colEmail, telephone FROM $tableReg");
 
         while ($row = mysqli_fetch_array($resultSQL)) {
 
-            $dataToShow[$countRecords] = 'Логин: '.$row[$colLogin].'<br>E-mail: '.$row[$colEmail].'<br>Номер телефона: '.$row[$colTel];
+            $dataToShow[$countRecords] = json_encode($row);
             $countRecords++;            
         }
 

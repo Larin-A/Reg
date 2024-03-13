@@ -18,21 +18,21 @@ $.ajax({
         {
             errString += data.errors[key] + "<br>";
         }
-        writeThumbnailReg(errString);
+        writeThumbnailMessage(errString);
         return;
     } 
 
     if (data.countRecords == 0) {
-        writeThumbnailReg("Записи о регистрации не найдены.");
+        writeThumbnailMessage("Записи о регистрации не найдены.");
         return;
     }
 
     for (let i = 0; i < data.countRecords; i++) {
-        writeThumbnailReg(data.dataToShow[i]);
+        writeThumbnailReg(JSON.parse(data.dataToShow[i]));
     }
 
 }).fail(function () {
-    writeThumbnailReg("Ошибка запроса данных регистраций.");
+    writeThumbnailMessage("Ошибка запроса данных регистраций.");
 });
 
 
@@ -51,7 +51,40 @@ function getNewParagraphThumbnail(thumbnail) {
     return paragraph;
 }
 
-function writeThumbnailReg(text) {
-    let paragraph = getNewParagraphThumbnail(addThumbnail(regThumbnails));
+function addButtonDelEdit(thumbnail) {
+    let buttonDel = document.createElement('button');
+    buttonDel.type = "button";
+    buttonDel.onclick = "buttonDelClick()";
+    buttonDel.className = "btn btn-link pull-right";
+    buttonDel.innerHTML = '<i class="icon-trash"> </i>';
+    thumbnail.append(buttonDel);
+
+    let buttonEdit = document.createElement('button');
+    buttonEdit.type = "button";
+    buttonDel.onclick = "buttonEditClick()";
+    buttonEdit.className = "btn btn-link pull-right";
+    buttonEdit.innerHTML = '<i class="icon-pencil"> </i>';
+    thumbnail.append(buttonEdit);
+}
+
+function writeThumbnailReg(registration) {
+    let thumbnail = addThumbnail(regThumbnails);
+    addButtonDelEdit(thumbnail);
+    let paragraph = getNewParagraphThumbnail(thumbnail);
+    paragraph.innerHTML = 'Логин: ' + registration.login + '<br>E-mail: ' + registration.email + '<br>Номер телефона: ' + registration.telephone;
+}
+
+function writeThumbnailMessage(text) {
+    let thumbnail = addThumbnail(regThumbnails);
+    let paragraph = getNewParagraphThumbnail(thumbnail);
     paragraph.innerHTML = text;
+}
+
+
+function buttonDelClick() {
+    
+}
+
+function buttonEditClick() {
+    
 }
