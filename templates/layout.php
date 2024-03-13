@@ -1,8 +1,8 @@
 <?php
 /**
  * @var $title string
- * @var $title string
- * @var $title string
+ * @var $styles string[]
+ * @var $content string
  */
 ?>
 
@@ -16,7 +16,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="/bootstrap/bootstrap-responsive.min.css" />
+    <?php foreach($styles as $style): ?>
     <link rel="stylesheet" href= <?= $style; ?> />
+    <?php endforeach;?>
 </head>
 <body>
     <script src="/jquery.js"></script>
