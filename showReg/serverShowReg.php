@@ -1,38 +1,27 @@
 <?php
-    require_once $_SERVER['DOCUMENT_ROOT'].'/database/connect.php';
-
-    $tableReg = Connect::$tableReg;
-    $colLogin = Connect::$colLogin;
-    $colEmail = Connect::$colEmail;
-    $colTel = Connect::$colTel;
+    require_once $_SERVER['DOCUMENT_ROOT'].'/database/useDatabaseReg.php';
 
     $dataResponse = [];
     $errors = [];
-    $dataToShow = [];
+    $dataReg = [];
     $countRecords = 0;
     
     try {
 
-        $link = mysqli_connect(Connect::$host, Connect::$user, Connect::$pass, Connect::$database);
+        $useDatabase = new UseDatabaseReg;
 
-        if ($link == false) {
-            throw new Exception('Error connect database');  
-        }
-
-        mysqli_set_charset($link, Connect::$charset);
-
-        $resultSQL = mysqli_query($link, "SELECT id, $colLogin, $colEmail, telephone FROM $tableReg");
+        $resultSQL = $useDatabase->getData();
 
         while ($row = mysqli_fetch_array($resultSQL)) {
 
-            $dataToShow[$countRecords] = json_encode($row);
+            $dataReg[$countRecords] = json_encode($row);
             $countRecords++;            
         }
 
         if ($countRecords) {
             $dataResponse['success'] = true;
             $dataResponse['message'] = 'Success!';
-            $dataResponse['dataToShow'] = $dataToShow;
+            $dataResponse['dataToShow'] = $dataReg;
             $dataResponse['countRecords'] = $countRecords;
         }
         else {
@@ -48,7 +37,7 @@
 
         error_log($ex->getMessage());
     } finally {
-        mysqli_close($link);
+        unset($useDatabase);
     }
 
     echo json_encode($dataResponse);
