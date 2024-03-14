@@ -54,21 +54,22 @@ function getNewParagraphThumbnail(thumbnail) {
 function addButtonDelEdit(thumbnail) {
     let buttonDel = document.createElement('button');
     buttonDel.type = "button";
-    buttonDel.onclick = "buttonDelClick()";
     buttonDel.className = "btn btn-link pull-right";
+    buttonDel.onclick = buttonDelClick;
     buttonDel.innerHTML = '<i class="icon-trash"> </i>';
     thumbnail.append(buttonDel);
 
     let buttonEdit = document.createElement('button');
     buttonEdit.type = "button";
-    buttonDel.onclick = "buttonEditClick()";
     buttonEdit.className = "btn btn-link pull-right";
+    buttonEdit.onclick = buttonEditClick;
     buttonEdit.innerHTML = '<i class="icon-pencil"> </i>';
     thumbnail.append(buttonEdit);
 }
 
 function writeThumbnailReg(registration) {
     let thumbnail = addThumbnail(regThumbnails);
+    thumbnail.id = registration.id;
     addButtonDelEdit(thumbnail);
     let paragraph = getNewParagraphThumbnail(thumbnail);
     paragraph.innerHTML = 'Логин: ' + registration.login + '<br>E-mail: ' + registration.email + '<br>Номер телефона: ' + registration.telephone;
@@ -82,7 +83,33 @@ function writeThumbnailMessage(text) {
 
 
 function buttonDelClick() {
+    if (!confirm('Удалить запись?')) {
+        return;
+    }
+
+    let id = this.parentNode.id;
     
+    let delData  = {
+        id,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/showReg/serverDel.php",
+        data: delData,
+        dataType: "json",
+        encode: true,
+    }).done(function (message) {
+        if (message == "Запись удалена") {
+            $("#" + id).remove();
+        }
+
+        alert(message);
+        
+    }).fail(function () {
+        console.log("Ошибка удаления");
+        alert("Ошибка удаления");
+    });
 }
 
 function buttonEditClick() {

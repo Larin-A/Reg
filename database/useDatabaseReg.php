@@ -102,4 +102,8 @@ class UseDatabaseReg {
     public function getData() {
         return mysqli_query($this->link, "SELECT id, login, email, telephone FROM user_data_reg");
     }
+
+    public function delete($id) {
+        return mysqli_query($this->link, "DELETE FROM user_data_reg WHERE id = '$id'");
+    }
 }
