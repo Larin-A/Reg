@@ -2,6 +2,8 @@
 
 const regThumbnails = $("#regThumbnails");
 
+let saveData;
+
 $("#nav-showReg").addClass("active");
 
 $.ajax({
@@ -26,7 +28,8 @@ $.ajax({
         writeThumbnailMessage("Записи о регистрации не найдены.");
         return;
     }
-
+    
+    saveData = data.dataToShow;
     for (let i = 0; i < data.countRecords; i++) {
         writeThumbnailReg(JSON.parse(data.dataToShow[i]));
     }
@@ -113,5 +116,14 @@ function buttonDelClick() {
 }
 
 function buttonEditClick() {
+    let id = this.parentNode.id;
+    
+    let editData  = JSON.parse(saveData.find((item) => JSON.parse(item).id == id));
+
+    let form = '';
+    for (let key in editData) {
+        form += '<input type="hidden" name="' + key + '" value="' + editData[key] + '">';
+    }
+    $('<form action="/editReg/editReg.php" method="POST">' + form + '</form>').appendTo('body').submit();
     
 }

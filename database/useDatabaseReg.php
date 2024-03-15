@@ -19,19 +19,19 @@ class UseDatabaseReg {
         mysqli_close($this->link);
    }
   
-    public function checkUniqueness($login, $email, $telephone, &$notUniqueness) {
+    public function checkUniqueness($login, $email, $telephone, &$notUniqueness, $noId = -1) {
 
-        $resultSQL = mysqli_query($this->link, "SELECT login FROM user_data_reg WHERE login = '$login'");
+        $resultSQL = mysqli_query($this->link, "SELECT login FROM user_data_reg WHERE login = '$login' && id != $noId");
         if (mysqli_fetch_array($resultSQL) != null) {
             $notUniqueness['loginNotUniqueness'] = 'Логин уже используется.';
         }
 
-        $resultSQL = mysqli_query($this->link, "SELECT email FROM user_data_reg WHERE email = '$email'");
+        $resultSQL = mysqli_query($this->link, "SELECT email FROM user_data_reg WHERE email = '$email' && id != $noId");
         if (mysqli_fetch_array($resultSQL) != null) {
             $notUniqueness['emailNotUniqueness'] = 'E-mail уже используется.';
         }
 
-        $resultSQL = mysqli_query($this->link, "SELECT telephone FROM user_data_reg WHERE telephone = '$telephone'");
+        $resultSQL = mysqli_query($this->link, "SELECT telephone FROM user_data_reg WHERE telephone = '$telephone' && id != $noId");
         if (mysqli_fetch_array($resultSQL) != null) {
             $notUniqueness['telephoneNotUniqueness'] = 'Номер телефона уже используется.';
         }
@@ -75,13 +75,13 @@ class UseDatabaseReg {
     }
 
     public function add($login, $email, $telephone, $hash, &$errors) {
-
-        $this->checkUniqueness($login, $email, $telephone, $errors);
+        
+        $this->checkCorrectness($login, $email, $telephone, $errors);
         if (!empty($errors)) {
             return false;
         }
-        
-        $this->checkCorrectness($login, $email, $telephone, $errors);
+
+        $this->checkUniqueness($login, $email, $telephone, $errors);
         if (!empty($errors)) {
             return false;
         }
@@ -89,7 +89,7 @@ class UseDatabaseReg {
         if (
             !mysqli_query(
                 $this->link,
-                "INSERT INTO user_data_reg (login, email, telephone, hashPass) SELECT  '$login', '$email', '$telephone', '$hash'"
+                "INSERT INTO user_data_reg (login, email, telephone, hashPass) VALUES ('$login', '$email', '$telephone', '$hash')"
                 )
         ) {
             $errors['database'] = 'Ошибка добавления в базу данных';
@@ -105,5 +105,30 @@ class UseDatabaseReg {
 
     public function delete($id) {
         return mysqli_query($this->link, "DELETE FROM user_data_reg WHERE id = '$id'");
+    }
+
+    public function update($id, $login, $email, $telephone, $hash, &$errors) {
+        
+        $this->checkCorrectness($login, $email, $telephone, $errors);
+        if (!empty($errors)) {
+            return false;
+        }
+        $this->checkUniqueness($login, $email, $telephone, $errors, $id);
+        if (!empty($errors)) {
+            return false;
+        }
+
+        if ($hash != null) {
+            $request = "UPDATE user_data_reg SET login = '$login', email = '$email', telephone = '$telephone', hashPass = '$hash' WHERE id = $id";
+        } else {
+            $request = "UPDATE user_data_reg SET login = '$login', email = '$email', telephone = '$telephone' WHERE id = $id";
+        }
+
+        if (!mysqli_query($this->link, $request)) {
+            $errors['database'] = 'Ошибка обновления записи в базе';
+            return false;
+        }
+
+        return true;
     }
 }
