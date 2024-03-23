@@ -58,14 +58,14 @@ function addButtonDelEdit(thumbnail) {
     let buttonDel = document.createElement('button');
     buttonDel.type = "button";
     buttonDel.className = "btn btn-link pull-right";
-    buttonDel.onclick = buttonDelClick;
+    buttonDel.addEventListener("click", buttonDelClick);
     buttonDel.innerHTML = '<i class="icon-trash"> </i>';
     thumbnail.append(buttonDel);
 
     let buttonEdit = document.createElement('button');
     buttonEdit.type = "button";
     buttonEdit.className = "btn btn-link pull-right";
-    buttonEdit.onclick = buttonEditClick;
+    buttonEdit.addEventListener("click", buttonEditClick);
     buttonEdit.innerHTML = '<i class="icon-pencil"> </i>';
     thumbnail.append(buttonEdit);
 }
