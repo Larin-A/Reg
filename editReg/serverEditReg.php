@@ -1,6 +1,25 @@
 <?php
-    require_once $_SERVER['DOCUMENT_ROOT'].'/database/UseDatabaseReg.php';
-    
+
+require_once $_SERVER['DOCUMENT_ROOT'].'/database/UseDatabaseReg.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    returnData();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    toUpdate();
+}
+
+function returnData()
+{
+    $useDatabase = new UseDatabaseReg;
+    $dataUser = $useDatabase->getByLogin($_GET['login']);
+
+    echo json_encode($dataUser);
+}
+
+function toUpdate()
+{   
     $errors = [];
     $dataReg = [];
     
@@ -12,7 +31,9 @@
 
     if (!is_numeric($id)) {
         $errors['id'] = "Некорректный id записи";
-        echo json_encode($message);
+        $dataReg['success'] = false;
+        $dataReg['errors'] = $errors;
+        echo json_encode($dataReg);
         return;
     }
 
@@ -62,3 +83,4 @@
     }
     
     echo json_encode($dataReg);
+}

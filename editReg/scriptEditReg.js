@@ -1,3 +1,31 @@
+let dataGet = {
+    login: new URLSearchParams(document.location.search).get('login')
+}
+
+let id = "-";
+
+$.ajax({
+    type: "GET",
+    url: "/editReg/serverEditReg.php",
+    dataType: "json",
+    data: dataGet,
+    encode: true,
+}).done(function (dataUser) {
+    if (!dataUser) {
+        alert("Не удалось получить данные для данного пользователя");
+        return;
+    }
+    $("#login").val(dataUser["login"]);
+    $("#telephone").val(dataUser["telephone"]);
+    $("#email").val(dataUser["email"]);
+
+    id = dataUser["id"];
+}).fail(function () {
+    alert("Ошибка получения данных для редактирования");
+});
+
+
+
 $(function() {
     $("#formEditReg").submit(function(event) {
         event.preventDefault();
@@ -29,8 +57,6 @@ $(function() {
 
         let email = $("#email").val();
         let telephone = $("#telephone").val();
-
-        let id = $(this).attr("name");
 
         formData = {
             id,

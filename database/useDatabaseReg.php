@@ -108,6 +108,11 @@ class UseDatabaseReg {
         return mysqli_query($this->connect, "SELECT id, login, email, telephone FROM user_data_reg");
     }
 
+    public function getByLogin($login)
+    {
+        return mysqli_fetch_array(mysqli_query($this->connect, "SELECT id, login, email, telephone FROM user_data_reg WHERE login = '$login'"));
+    }
+
     public function delete($id)
     {
         return mysqli_query($this->connect, "DELETE FROM user_data_reg WHERE id = '$id'");

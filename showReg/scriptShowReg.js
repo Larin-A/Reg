@@ -120,10 +120,5 @@ function buttonEditClick() {
     
     let editData  = JSON.parse(saveData.find((item) => JSON.parse(item).id == id));
 
-    let form = '';
-    for (let key in editData) {
-        form += '<input type="hidden" name="' + key + '" value="' + editData[key] + '">';
-    }
-    $('<form action="/editReg/editReg.php" method="POST">' + form + '</form>').appendTo('body').submit();
-    
+    window.location.href = "/editReg/editReg.php?login=" + editData.login;
 }
