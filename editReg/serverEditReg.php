@@ -1,5 +1,5 @@
 <?php
-    require_once $_SERVER['DOCUMENT_ROOT'].'/database/useDatabaseReg.php';
+    require_once $_SERVER['DOCUMENT_ROOT'].'/database/UseDatabaseReg.php';
     
     $errors = [];
     $dataReg = [];

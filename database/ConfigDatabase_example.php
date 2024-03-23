@@ -1,6 +1,6 @@
 <?php
 /*
-class Connect
+class ConfigDatabase
 {
     public static $host = "127.0.0.1";
     public static $port = 3306;
